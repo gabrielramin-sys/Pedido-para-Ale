@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Convite para o fim de semana na chácara</title>
+<meta name="description" content="Convite com todos os detalhes do fim de semana na chácara: data, endereço, programação, transporte e contato.">
+<meta name="theme-color" content="#1c2541">
+<meta property="og:title" content="Convite para o fim de semana na chácara">
+<meta property="og:description" content="Sábado 10/10 às 17h até domingo 11/10. Tudo explicado, com mapa e contato.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+@property --sky1 { syntax: '<color>'; inherits: true; initial-value: #5d7fb0; }
+@property --sky2 { syntax: '<color>'; inherits: true; initial-value: #f7c27a; }
+@property --sunY { syntax: '<length>'; inherits: true; initial-value: 90px; }
+@property --night { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --fire { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+:root {
+  --dusk: #1c2541;
+  --dusk-2: #38406f;
+  --grass: #35603f;
+  --sage: #eaf0e3;
+  --paper: #f8fbf4;
+  --lantern: #f4c04e;
+  --ink: #1f2a24;
+  --muted: #55645b;
+  --line: #cfdac6;
+  --ember: #e8743b;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-behavior: smooth; scroll-padding-top: 12px; }
+body {
+  margin: 0;
+  background: var(--sage);
+  color: var(--ink);
+  font-family: 'Figtree', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  padding-bottom: 5.5rem;
+}
+h1, h2, h3 { font-family: 'Young Serif', Georgia, 'Times New Roman', serif; font-weight: 400; line-height: 1.15; margin: 0; }
+p { margin: 0 0 1rem; max-width: 62ch; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--lantern); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 1.25rem; }
+
+/* Botões */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 3rem; padding: .7rem 1.3rem; border-radius: 14px;
+  font: 700 1rem 'Figtree', system-ui, sans-serif; text-decoration: none; cursor: pointer;
+  border: 2px solid transparent; transition: transform .15s ease, background-color .15s ease;
+}
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--lantern); color: #2a2208; }
+.btn-primary:hover { background: #f8cf74; }
+.btn-ghost { border-color: rgba(255,255,255,.55); color: #fff; }
+.btn-ghost:hover { background: rgba(255,255,255,.12); }
+.btn-dark { background: var(--dusk); color: #fff; }
+.btn-dark:hover { background: var(--dusk-2); }
+.btn-line { border-color: var(--grass); color: var(--grass); background: transparent; }
+.btn-line:hover { background: rgba(53,96,63,.1); }
+
+/* Abertura */
+.hero {
+  background:
+    radial-gradient(120% 70% at 85% 105%, rgba(232,116,59,.55), transparent 60%),
+    linear-gradient(170deg, #1c2541 0%, #2e3868 60%, #4a3f6b 100%);
+  color: #fff;
+  padding: calc(3.5rem + env(safe-area-inset-top, 0px)) 0 3.5rem;
+}
+.hello { font-weight: 500; font-size: 1.1rem; color: var(--lantern); margin-bottom: .75rem; }
+.hero h1 { font-size: clamp(2.1rem, 8vw, 3.4rem); max-width: 16ch; margin-bottom: 1.25rem; }
+.lead { font-size: 1.15rem; color: #e6e9f5; }
+.count {
+  display: inline-block; margin: .5rem 0 1.5rem; padding: .5rem .9rem;
+  border: 1px solid rgba(255,255,255,.35); border-radius: 12px; font-weight: 500; color: #fff;
+}
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+/* Seções */
+section { padding: 3.25rem 0 0; }
+section h2 { font-size: clamp(1.6rem, 5.5vw, 2.1rem); margin-bottom: 1.25rem; color: var(--dusk); }
+.sub { color: var(--muted); }
+
+/* Ficha */
+.ficha { margin: 0; border-top: 2px solid var(--dusk); }
+.ficha .row { display: grid; grid-template-columns: 1fr; gap: .15rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.ficha .row[hidden] { display: none; }
+.ficha dt { font-family: 'Young Serif', Georgia, serif; font-size: 1.15rem; color: var(--grass); }
+.ficha dd { margin: 0; }
+.ficha .btns { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+@media (min-width: 640px) {
+  .ficha .row { grid-template-columns: 9rem 1fr; gap: 1.5rem; }
+}
+
+/* Cena + linha do tempo */
+.scene-box {
+  border-radius: 22px; overflow: hidden; background: var(--paper);
+  border: 1px solid var(--line);
+}
+.scene { --sky1: #5d7fb0; --sky2: #f7c27a; --sunY: 90px; --night: 0; --fire: 0;
+  transition: --sky1 .8s ease, --sky2 .8s ease, --sunY .8s ease, --night .8s ease, --fire .8s ease; }
+.scene[data-step="2"] { --sky1: #0e1430; --sky2: #2a2f63; --sunY: 230px; --night: 1; --fire: 1; }
+.scene[data-step="3"] { --sky1: #6fb3e8; --sky2: #d9efff; --sunY: -10px; --night: 0; --fire: 0; }
+.scene[data-step="4"] { --sky1: #7fa9d6; --sky2: #f5d9a6; --sunY: 60px; --night: 0; --fire: 0; }
+.scene svg { display: block; width: 100%; height: auto; }
+.sky-stop-1 { stop-color: var(--sky1); }
+.sky-stop-2 { stop-color: var(--sky2); }
+.sun { transform: translateY(var(--sunY)); }
+.night-el { opacity: var(--night); }
+.fire-el { opacity: var(--fire); }
+.flame { transform-origin: 300px 262px; animation: flicker 1.6s ease-in-out infinite alternate; }
+@keyframes flicker { from { transform: scale(1, 1); } to { transform: scale(.92, 1.08); } }
+
+.tabs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.tab {
+  appearance: none; background: transparent; border: 0; border-bottom: 3px solid transparent;
+  padding: .85rem .75rem; text-align: left; cursor: pointer; font: 500 .95rem/1.3 'Figtree', system-ui, sans-serif; color: var(--muted);
+}
+.tab strong { display: block; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 1.05rem; color: var(--ink); }
+.tab[aria-selected="true"] { border-bottom-color: var(--grass); background: rgba(53,96,63,.08); color: var(--ink); }
+@media (min-width: 640px) { .tabs { grid-template-columns: repeat(4, 1fr); } }
+.panel { padding: 1.25rem 1.25rem 1.1rem; border-top: 1px solid var(--line); min-height: 8.5rem; }
+.panel h3 { font-size: 1.3rem; color: var(--dusk); margin-bottom: .5rem; }
+.panel p { margin: 0; }
+
+/* Mapa */
+.map-frame { border-radius: 22px; overflow: hidden; border: 1px solid var(--line); background: var(--paper); }
+.map-frame iframe { display: block; width: 100%; height: 340px; border: 0; }
+.map-info { padding: 1rem 1.25rem 1.25rem; }
+.map-info p { margin-bottom: .75rem; }
+.map-info .btns { display: flex; flex-wrap: wrap; gap: .6rem; }
+
+/* Combinados e checklist */
+.checks { list-style: none; margin: 0; padding: 0; }
+.checks li { display: grid; grid-template-columns: 2rem 1fr; gap: .5rem; padding: .85rem 0; border-bottom: 1px solid var(--line); }
+.checks li:first-child { border-top: 2px solid var(--dusk); }
+.tick {
+  width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--grass); color: #fff;
+  display: grid; place-items: center; font-size: .9rem; font-weight: 700; margin-top: .1rem;
+}
+.packlist label { display: grid; grid-template-columns: 2rem 1fr; gap: .5rem; padding: .8rem 0; border-bottom: 1px solid var(--line); cursor: pointer; align-items: center; }
+.packlist label:first-child { border-top: 2px solid var(--dusk); }
+.packlist input { width: 1.4rem; height: 1.4rem; accent-color: var(--grass); margin: 0; }
+.packlist input:checked + span { text-decoration: line-through; color: var(--muted); }
+
+/* Dúvidas */
+details { border-bottom: 1px solid var(--line); }
+details:first-of-type { border-top: 2px solid var(--dusk); }
+summary { cursor: pointer; padding: 1rem 0; font-family: 'Young Serif', Georgia, serif; font-size: 1.12rem; color: var(--dusk); list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; font-family: 'Figtree', system-ui, sans-serif; font-weight: 700; color: var(--grass); transition: transform .2s ease; }
+details[open] summary::after { transform: rotate(45deg); }
+details p { padding-bottom: 1rem; margin: 0; }
+
+/* Resposta */
+.answer { margin-top: 3.25rem; background: var(--dusk); color: #fff; padding: 3rem 0; }
+.answer h2 { color: #fff; }
+.answer p { color: #dfe3f2; }
+.answer .actions { margin-top: 1.25rem; }
+.foot { padding: 1.5rem 0 0; color: var(--muted); font-size: .95rem; }
+
+/* Botão de ligar fixo */
+.fab {
+  position: fixed; right: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); z-index: 10;
+  background: var(--lantern); color: #2a2208; font-weight: 700; text-decoration: none;
+  padding: .85rem 1.2rem; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,28,50,.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scene { transition: none; }
+  .flame { animation: none; }
+  .btn, summary::after { transition: none; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { --sage: #17211b; --paper: #1f2c24; --ink: #e9efe4; --muted: #a9b8ac; --line: #34463a; --dusk: #cdd6f4; --grass: #8fcf9c; }
+  .btn-dark { background: #cdd6f4; color: #1c2541; }
+  .btn-dark:hover { background: #fff; }
+  .answer { background: #1c2541; }
+  .answer h2 { color: #fff; }
+  .tab[aria-selected="true"] { background: rgba(143,207,156,.12); }
+  .tick { color: #17211b; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="hello" id="hello">Olá!</p>
+    <h1>Convite para um fim de semana na chácara</h1>
+    <p class="lead">Eu, Gabriel, gostaria de convidar <span data-nome>sua filha</span> para passar um fim de semana comigo e com meus amigos do exército em uma chácara. Preparei esta página para a senhora saber de tudo com calma: quando, onde, com quem e como falar comigo.</p>
+    <p class="count" id="count" aria-live="polite">Sábado, 10/10, às 17h</p>
+    <div class="actions">
+      <a class="btn btn-primary" id="heroOk" href="#resposta">Quero responder</a>
+      <a class="btn btn-ghost" href="#mapa">Ver onde fica</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="ficha">
+    <div class="wrap">
+      <h2>O essencial</h2>
+      <dl class="ficha">
+        <div class="row">
+          <dt>Quando</dt>
+          <dd>Sábado, 10/10/2026, com saída por volta das 17h. Volta no domingo, 11/10/2026, <span data-volta>depois do almoço</span>.</dd>
+        </div>
+        <div class="row">
+          <dt>Onde</dt>
+          <dd>Estr. Catarina Taverna dos Santos, Campina Grande do Sul, PR, CEP 83430-000.
+            <div class="btns"><a class="btn btn-line" href="#mapa">Ver no mapa</a></div>
+          </dd>
+        </div>
+        <div class="row">
+          <dt>Com quem</dt>
+          <dd><span data-nome>Sua filha</span>, eu, meus amigos do exército e as namoradas deles. Todos maiores de idade.</dd>
+        </div>
+        <div class="row">
+          <dt>Programação</dt>
+          <dd>Churrasco no sábado à noite e, provavelmente, almoço na chácara no domingo.</dd>
+        </div>
+        <div class="row">
+          <dt>Transporte</dt>
+          <dd>Ida e volta com o Luciano, meu amigo do quartel, do começo ao fim.</dd>
+        </div>
+        <div class="row" id="rowDormida" hidden>
+          <dt>Dormida</dt>
+          <dd id="dormidaTxt"></dd>
+        </div>
+        <div class="row" id="rowAnfitriao" hidden>
+          <dt>Quem recebe</dt>
+          <dd id="anfitriaoTxt"></dd>
+        </div>
+        <div class="row">
+          <dt>Contato</dt>
+          <dd><strong class="phone-text">(41) 99617-0104</strong>
+            <div class="btns">
+              <a class="btn btn-dark" data-call href="tel:+5541996170104">Ligar</a>
+              <a class="btn btn-line" data-wa="Oi, Gabriel!" href="#">WhatsApp</a>
+            </div>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="plano">
+    <div class="wrap">
+      <h2>Como o fim de semana vai ser</h2>
+      <p class="sub">Toque em cada momento para ver o que acontece e como o dia muda na chácara.</p>
+      <div class="scene-box">
+        <div class="scene" id="scene" data-step="1">
+          <svg viewBox="0 0 600 300" role="img" aria-label="Paisagem de chácara que muda do fim de tarde para a noite, o dia seguinte e a volta">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                <stop class="sky-stop-1" offset="0"/>
+                <stop class="sky-stop-2" offset="1"/>
+              </linearGradient>
+              <radialGradient id="glow">
+                <stop offset="0" stop-color="#ffb347" stop-opacity=".85"/>
+                <stop offset="1" stop-color="#e8743b" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="600" height="300" fill="url(#sky)"/>
+            <g class="night-el" fill="#fff">
+              <circle cx="60" cy="40" r="1.6"/><circle cx="130" cy="95" r="1.2"/><circle cx="210" cy="30" r="1.8"/>
+              <circle cx="300" cy="70" r="1.3"/><circle cx="380" cy="28" r="1.6"/><circle cx="520" cy="60" r="1.4"/>
+              <circle cx="560" cy="120" r="1.2"/><circle cx="470" cy="25" r="1.1"/>
+              <circle cx="110" cy="62" r="20" fill="#f3efd8"/>
+              <circle cx="120" cy="56" r="18" fill="#0e1430" opacity=".18"/>
+            </g>
+            <g class="sun"><circle cx="460" cy="80" r="34" fill="#ffe08a"/><circle cx="460" cy="80" r="52" fill="#ffe08a" opacity=".25"/></g>
+            <path d="M0 215 Q120 160 260 200 T600 185 V300 H0Z" fill="#3f6f4a"/>
+            <path d="M0 250 Q170 215 330 245 T600 235 V300 H0Z" fill="#2d5238"/>
+            <!-- casa -->
+            <g>
+              <rect x="430" y="196" width="86" height="52" fill="#d9c7a3"/>
+              <path d="M422 198 L473 160 L524 198Z" fill="#8a4b34"/>
+              <rect x="448" y="214" width="20" height="22" fill="#fff3b8" opacity=".35"/>
+              <rect class="night-el" x="448" y="214" width="20" height="22" fill="#ffd36b"/>
+              <rect x="486" y="218" width="16" height="30" fill="#6b4a33"/>
+            </g>
+            <!-- árvores -->
+            <g fill="#1f3d2a">
+              <rect x="64" y="214" width="6" height="26" fill="#5a3d2b"/><circle cx="67" cy="206" r="22"/>
+              <rect x="124" y="226" width="5" height="22" fill="#5a3d2b"/><circle cx="126" cy="220" r="17"/>
+              <rect x="548" y="222" width="5" height="24" fill="#5a3d2b"/><circle cx="550" cy="214" r="18"/>
+            </g>
+            <!-- fogueira / churrasqueira -->
+            <g class="fire-el">
+              <circle cx="300" cy="258" r="70" fill="url(#glow)"/>
+              <rect x="278" y="262" width="44" height="10" rx="3" fill="#4a3a2e"/>
+              <g class="flame">
+                <path d="M300 214 C286 232 282 246 292 260 H308 C318 246 314 232 300 214Z" fill="#e8743b"/>
+                <path d="M300 232 C292 244 291 252 296 260 H304 C309 252 308 244 300 232Z" fill="#ffd36b"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Momentos do fim de semana">
+          <button class="tab" role="tab" id="tab1" aria-selected="true" aria-controls="panel" data-step="1"><strong>Sábado, 17h</strong>Saída</button>
+          <button class="tab" role="tab" id="tab2" aria-selected="false" aria-controls="panel" data-step="2" tabindex="-1"><strong>Sábado, noite</strong>Churrasco</button>
+          <button class="tab" role="tab" id="tab3" aria-selected="false" aria-controls="panel" data-step="3" tabindex="-1"><strong>Domingo</strong>Almoço</button>
+          <button class="tab" role="tab" id="tab4" aria-selected="false" aria-controls="panel" data-step="4" tabindex="-1"><strong>Domingo</strong>Volta</button>
+        </div>
+        <div class="panel" id="panel" role="tabpanel" aria-live="polite" aria-labelledby="tab1">
+          <h3 id="panelTitle"></h3>
+          <p id="panelText"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mapa">
+    <div class="wrap">
+      <h2>Onde fica a chácara</h2>
+      <div class="map-frame">
+        <iframe title="Mapa da chácara no Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://maps.google.com/maps?q=Estr.+Catarina+Taverna+dos+Santos,+Campina+Grande+do+Sul+-+PR,+83430-000&z=15&output=embed"></iframe>
+        <div class="map-info">
+          <p>Estr. Catarina Taverna dos Santos, Campina Grande do Sul, PR, 83430-000.</p>
+          <div class="btns">
+            <a class="btn btn-dark" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Estr.+Catarina+Taverna+dos+Santos,+Campina+Grande+do+Sul+-+PR,+83430-000">Abrir no Google Maps</a>
+            <a class="btn btn-line" target="_blank" rel="noopener" href="https://waze.com/ul?q=Estr.%20Catarina%20Taverna%20dos%20Santos%2C%20Campina%20Grande%20do%20Sul%20-%20PR&navigate=yes">Abrir no Waze</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="combinados">
+    <div class="wrap">
+      <h2>Meus combinados com a senhora</h2>
+      <ul class="checks" id="combinados-lista">
+        <li><span class="tick" aria-hidden="true">✓</span><span>Ida e volta com o Luciano, meu amigo do quartel, sem trocar de carona no meio do caminho.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span>Aviso por mensagem quando chegarmos na chácara e quando estivermos voltando.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span>Meu telefone fica sempre à mão para a senhora: <strong>(41) 99617-0104</strong>.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span>Endereço e mapa nesta página, para a senhora saber exatamente onde <span data-nome>sua filha</span> estará.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="levar">
+    <div class="wrap">
+      <h2>Sugestão do que levar</h2>
+      <p class="sub">Marque o que já está na mala. A noite no campo costuma esfriar.</p>
+      <div class="packlist">
+        <label><input type="checkbox"><span>Agasalho e roupa de frio para a noite</span></label>
+        <label><input type="checkbox"><span>Repelente e protetor solar</span></label>
+        <label><input type="checkbox"><span>Itens de higiene pessoal</span></label>
+        <label><input type="checkbox"><span>Remédios de uso pessoal, se houver</span></label>
+        <label><input type="checkbox"><span>Carregador de celular</span></label>
+        <label><input type="checkbox"><span>Documento com foto</span></label>
+      </div>
+    </div>
+  </section>
+
+  <section id="duvidas">
+    <div class="wrap">
+      <h2>Perguntas que a senhora pode ter</h2>
+      <details>
+        <summary>Quem vai estar lá?</summary>
+        <p>Meus amigos do exército, com as namoradas deles, além de <span data-nome>sua filha</span> e de mim. É uma turma que convive comigo no quartel, e todos são maiores de idade.</p>
+      </details>
+      <details>
+        <summary>Como vamos e voltamos?</summary>
+        <p>Saímos por volta das 17h de sábado com o Luciano, meu amigo do quartel, e voltamos no domingo com ele, <span data-volta>por volta das 15h</span>.</p>
+      </details>
+      <details>
+        <summary>E se a senhora precisar falar comigo?</summary>
+        <p>É só ligar ou chamar no WhatsApp: (41) 99617-0104. Os botões desta página levam direto para o meu contato.</p>
+      </details>
+      <details>
+        <summary>Onde a chácara fica?</summary>
+        <p>Em Campina Grande do Sul, no Paraná, na Estr. Catarina Taverna dos Santos. O mapa acima abre direto no Google Maps ou no Waze.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="answer" id="resposta">
+    <div class="wrap">
+      <h2>O que a senhora acha?</h2>
+      <p>Respondo com todo o respeito: se a senhora autorizar, é só tocar no botão. Se ficar alguma dúvida, me chame que eu explico.</p>
+      <div class="actions">
+        <a class="btn btn-primary" id="okBtn" target="_blank" rel="noopener" href="#">Autorizo</a>
+        <a class="btn btn-ghost" id="duvidaBtn" target="_blank" rel="noopener" href="#">Tenho uma pergunta</a>
+        <a class="btn btn-ghost" data-call href="tel:+5541996170104">Ligar para Gabriel</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>Feito com carinho por Gabriel. Contato: (41) 99617-0104.</p>
+  </div>
+</footer>
+
+<a class="fab" data-call href="tel:+5541996170104" aria-label="Ligar para Gabriel">Ligar para o Gabriel</a>
+
+<script>
+/* ====== EDITE AQUI ======
+   Preencha o que quiser. Campos vazios usam um texto neutro. */
+const CONFIG = {
+  sogra: "",        // ex.: "Dona Maria"
+  namorada: "",     // ex.: "Ana"
+  amigo: "Luciano", // amigo do quartel que leva e traz vocês
+  volta: "por volta das 15h",
+  dormida: "Dormimos em uma casa separada do salão de festas, cada um com seu quarto.",
+  anfitriao: "A chácara é de outro amigo meu do quartel, também chamado Gabriel.",
+  adultos: "Todos os presentes são maiores de idade.",
+  telefone: "5541996170104"
+};
+
+const nome = CONFIG.namorada || "sua filha";
+const nomeCap = CONFIG.namorada || "Sua filha";
+
+/* Nomes e textos personalizáveis */
+document.querySelectorAll("[data-nome]").forEach(el => {
+  el.textContent = el.textContent.startsWith("Sua") ? nomeCap : nome;
+});
+document.querySelectorAll("[data-volta]").forEach(el => { el.textContent = CONFIG.volta; });
+document.getElementById("hello").textContent = CONFIG.sogra ? "Olá, " + CONFIG.sogra + "!" : "Olá!";
+
+/* Itens opcionais em "combinados" */
+const lista = document.getElementById("combinados-lista");
+if (CONFIG.dormida) {
+  document.getElementById("dormidaTxt").textContent = CONFIG.dormida;
+  document.getElementById("rowDormida").hidden = false;
+}
+const quemRecebe = [CONFIG.anfitriao, CONFIG.adultos].filter(Boolean).join(" ");
+if (quemRecebe) {
+  document.getElementById("anfitriaoTxt").textContent = quemRecebe;
+  document.getElementById("rowAnfitriao").hidden = false;
+}
+[CONFIG.dormida, CONFIG.anfitriao, CONFIG.adultos].forEach(txt => {
+  if (!txt) return;
+  const li = document.createElement("li");
+  li.innerHTML = '<span class="tick" aria-hidden="true">✓</span><span></span>';
+  li.lastElementChild.textContent = txt;
+  lista.appendChild(li);
+});
+
+/* WhatsApp */
+const wa = (msg) => "https://wa.me/" + CONFIG.telefone + "?text=" + encodeURIComponent(msg);
+const quem = CONFIG.namorada || "minha filha";
+document.getElementById("okBtn").href = wa("Oi, Gabriel! Li o convite com atenção e autorizo " + quem + " a ir à chácara de 10/10 a 11/10. Qualquer coisa eu ligo!");
+document.getElementById("duvidaBtn").href = wa("Oi, Gabriel! Li o convite e tenho uma pergunta:");
+document.querySelectorAll("[data-wa]").forEach(a => {
+  a.href = wa(a.dataset.wa);
+  a.target = "_blank"; a.rel = "noopener";
+});
+
+/* Linha do tempo */
+const amigoTxt = CONFIG.amigo ? "meu amigo " + CONFIG.amigo : "um amigo meu do quartel";
+const passos = {
+  1: ["Sábado, por volta das 17h: saída",
+      nomeCap + " e eu saímos por volta das 17h com " + amigoTxt + " e seguimos juntos para a chácara, em Campina Grande do Sul."],
+  2: ["Sábado à noite: churrasco",
+      "Churrasco com meus amigos do exército e as namoradas deles, na chácara. É uma noite de conversa e comida, em grupo."],
+  3: ["Domingo: almoço",
+      "Provavelmente almoçamos na chácara também, com o mesmo pessoal, antes de arrumar as coisas para voltar."],
+  4: ["Domingo: volta",
+      "Voltamos com " + amigoTxt + ", o mesmo que nos levou, " + CONFIG.volta + ". Aviso a senhora quando estivermos a caminho."]
+};
+const scene = document.getElementById("scene");
+const tabs = Array.from(document.querySelectorAll(".tab"));
+const panel = document.getElementById("panel");
+function selecionar(n, focar) {
+  scene.dataset.step = n;
+  tabs.forEach(t => {
+    const ativo = t.dataset.step === String(n);
+    t.setAttribute("aria-selected", ativo);
+    t.tabIndex = ativo ? 0 : -1;
+    if (ativo) { panel.setAttribute("aria-labelledby", t.id); if (focar) t.focus(); }
+  });
+  document.getElementById("panelTitle").textContent = passos[n][0];
+  document.getElementById("panelText").textContent = passos[n][1];
+}
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => selecionar(+t.dataset.step));
+  t.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight") { e.preventDefault(); selecionar(((i + 1) % 4) + 1, true); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); selecionar(((i + 3) % 4) + 1, true); }
+  });
+});
+selecionar(1);
+
+/* Contagem regressiva */
+const inicio = new Date("2026-10-10T17:00:00-03:00");
+const fim = new Date("2026-10-11T18:00:00-03:00");
+const contagem = document.getElementById("count");
+function atualizar() {
+  const agora = new Date();
+  if (agora < inicio) {
+    const min = Math.floor((inicio - agora) / 60000);
+    const d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
+    const partes = [];
+    if (d) partes.push(d + (d === 1 ? " dia" : " dias"));
+    if (h) partes.push(h + (h === 1 ? " hora" : " horas"));
+    if (!d) partes.push(m + (m === 1 ? " minuto" : " minutos"));
+    contagem.textContent = "Faltam " + partes.join(" e ") + " para a saída, sábado às 17h";
+  } else if (agora < fim) {
+    contagem.textContent = "O fim de semana já começou";
+  } else {
+    contagem.textContent = "Foi um fim de semana e tanto";
+  }
+}
+atualizar();
+setInterval(atualizar, 30000);
+</script>
+</body>
+</html>
